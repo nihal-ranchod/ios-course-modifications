@@ -11,21 +11,21 @@ extension SkeletonCell: SkeletonLoadable {}
 
 final class SkeletonCell: UITableViewCell {
     
-    let typeLabel = UILabel()
-    let underlineView = UIView()
-    let nameLabel = UILabel()
+    private lazy var typeLabel = UILabel()
+    private lazy var underlineView = UIView()
+    private lazy var nameLabel = UILabel()
 
-    let balanceStackView = UIStackView()
-    let balanceLabel = UILabel()
-    let balanceAmountLabel = UILabel()
-        
-    let chevronImageView = UIImageView()
-    
+    private lazy var balanceStackView = UIStackView()
+    private lazy var balanceLabel = UILabel()
+    private lazy var balanceAmountLabel = UILabel()
+
+    private lazy var chevronImageView = UIImageView()
+
     // Gradients
-    let typeLayer = CAGradientLayer()
-    let nameLayer = CAGradientLayer()
-    let balanceLayer = CAGradientLayer()
-    let balanceAmountLayer = CAGradientLayer()
+    private let typeLayer = CAGradientLayer()
+    private let nameLayer = CAGradientLayer()
+    private let balanceLayer = CAGradientLayer()
+    private let balanceAmountLayer = CAGradientLayer()
     
     static let reuseID = "SkeletonCell"
     static let rowHeight: CGFloat = 112

@@ -18,20 +18,20 @@ final class AccountSummaryViewController: UIViewController {
     var accountCellDataModels: [AccountSummaryCell.DataModel] = []
 
     // Components
-    var tableView = UITableView()
-    var headerView = AccountSummaryHeaderView(frame: .zero)
-    let refreshControl = UIRefreshControl()
+    private lazy var tableView = UITableView()
+    private lazy var headerView = AccountSummaryHeaderView(frame: .zero)
+    private lazy var refreshControl = UIRefreshControl()
 
     // Error alert
-    lazy var errorAlert: UIAlertController = {
+    private lazy var errorAlert: UIAlertController = {
         let alert =  UIAlertController(title: "", message: "", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         return alert
     }()
-    
-    var isLoaded = false
-    
-    lazy var logoutBarButtonItem: UIBarButtonItem = {
+
+    private var isLoaded = false
+
+    private lazy var logoutBarButtonItem: UIBarButtonItem = {
         let barButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(logoutTapped))
         barButtonItem.tintColor = .label
         return barButtonItem

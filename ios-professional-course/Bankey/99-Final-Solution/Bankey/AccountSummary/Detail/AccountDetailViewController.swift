@@ -11,15 +11,15 @@ final class AccountDetailViewController: UIViewController {
     let transactions: [Transaction]
 
     // MARK: - Header UI
-    let accountNameLabel = UILabel()
-    let accountTypeLabel = UILabel()
-    let underlineView = UIView()
-    let balanceTitleLabel = UILabel()
-    let balanceAmountLabel = UILabel()
-    let openedDateLabel = UILabel()
+    private lazy var accountNameLabel = UILabel()
+    private lazy var accountTypeLabel = UILabel()
+    private lazy var underlineView = UIView()
+    private lazy var balanceTitleLabel = UILabel()
+    private lazy var balanceAmountLabel = UILabel()
+    private lazy var openedDateLabel = UILabel()
 
     // MARK: - Table
-    let tableView = UITableView()
+    private lazy var tableView = UITableView()
 
     static let transactionCellID = "TransactionCell"
 

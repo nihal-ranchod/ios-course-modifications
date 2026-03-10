@@ -25,17 +25,17 @@ final class AccountSummaryCell: UITableViewCell {
         }
     }
 
-    let typeLabel = UILabel()
-    let underlineView = UIView()
-    let nameLabel = UILabel()
-        
-    let balanceStackView = UIStackView()
-    let balanceLabel = UILabel()
-    let balanceAmountLabel = UILabel()
-        
-    let chevronImageView = UIImageView()
+    private lazy var typeLabel = UILabel()
+    private lazy var underlineView = UIView()
+    private lazy var nameLabel = UILabel()
 
-    let dataModel: DataModel? = nil
+    private lazy var balanceStackView = UIStackView()
+    private lazy var balanceLabel = UILabel()
+    private lazy var balanceAmountLabel = UILabel()
+
+    private lazy var chevronImageView = UIImageView()
+
+    private var dataModel: DataModel?
     
     static let reuseID = "AccountSummaryCell"
     static let rowHeight: CGFloat = 112

@@ -11,8 +11,8 @@ import UIKit
 
 final class MoreViewController: UIViewController {
     
-    let stackView = UIStackView()
-    let resetOnboardingButton = UIButton(type: .system)
+    private lazy var stackView = UIStackView()
+    private lazy var resetOnboardingButton = UIButton(type: .system)
     
     override func viewDidLoad() {
         super.viewDidLoad()

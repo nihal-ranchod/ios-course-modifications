@@ -13,11 +13,11 @@ protocol OnboardingContainerViewControllerDelegate: AnyObject {
 
 final class OnboardingContainerViewController: UIViewController {
 
-    let pageViewController: UIPageViewController
-    let closeButton = UIButton(type: .system)
+    private let pageViewController: UIPageViewController
+    private lazy var closeButton = UIButton(type: .system)
 
-    var pages = [UIViewController]()
-    var currentVC: UIViewController
+    private var pages = [UIViewController]()
+    private var currentVC: UIViewController
 
     weak var delegate: OnboardingContainerViewControllerDelegate?
     

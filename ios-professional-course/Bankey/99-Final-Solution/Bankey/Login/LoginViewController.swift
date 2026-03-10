@@ -17,29 +17,29 @@ protocol LoginViewControllerDelegate: AnyObject {
 
 final class LoginViewController: UIViewController {
 
-    let titleLabel = UILabel()
-    let subtitleLabel = UILabel()
-    
-    let loginView = LoginView()
-    let signInButton = UIButton(type: .system)
-    let errorMessageLabel = UILabel()
-    
+    private lazy var titleLabel = UILabel()
+    private lazy var subtitleLabel = UILabel()
+
+    private lazy var loginView = LoginView()
+    private lazy var signInButton = UIButton(type: .system)
+    private lazy var errorMessageLabel = UILabel()
+
     weak var delegate: LoginViewControllerDelegate?
-    
-    var username: String? {
+
+    private var username: String? {
         return loginView.usernameTextField.text
     }
 
-    var password: String? {
+    private var password: String? {
         return loginView.passwordTextField.text
     }
 
     // animation
-    var leadingEdgeOnScreen: CGFloat = 16
-    var leadingEdgeOffScreen: CGFloat = -1000
-    
-    var titleLeadingAnchor: NSLayoutConstraint?
-    var subtitleLeadingAnchor: NSLayoutConstraint?
+    private let leadingEdgeOnScreen: CGFloat = 16
+    private let leadingEdgeOffScreen: CGFloat = -1000
+
+    private var titleLeadingAnchor: NSLayoutConstraint?
+    private var subtitleLeadingAnchor: NSLayoutConstraint?
     
     override func viewDidLoad() {
         super.viewDidLoad()

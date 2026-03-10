@@ -10,10 +10,10 @@ import UIKit
 
 final class LoginView: UIView {
     
-    let stackView = UIStackView()
+    private lazy var stackView = UIStackView()
     let usernameTextField = UITextField()
     let passwordTextField = UITextField()
-    let dividerView = UIView()
+    private lazy var dividerView = UIView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)

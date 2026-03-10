@@ -9,9 +9,9 @@ import UIKit
 
 final class OnboardingViewController: UIViewController {
     
-    let stackView = UIStackView()
-    let heroImageView = UIImageView()
-    let titleLabel = UILabel()
+    private lazy var stackView = UIStackView()
+    private lazy var heroImageView = UIImageView()
+    private lazy var titleLabel = UILabel()
     
     let heroImageName: String
     let titleText: String

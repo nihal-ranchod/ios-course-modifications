@@ -10,9 +10,9 @@ import UIKit
 
 final class DummyViewController: UIViewController {
     
-    let stackView = UIStackView()
-    let label = UILabel()
-    let logoutButton = UIButton(type: .system)
+    private lazy var stackView = UIStackView()
+    private lazy var label = UILabel()
+    private lazy var logoutButton = UIButton(type: .system)
     
     weak var logoutDelegate: LogoutDelegate?
     

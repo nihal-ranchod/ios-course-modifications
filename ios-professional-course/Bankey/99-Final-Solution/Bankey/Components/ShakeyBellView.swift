@@ -10,10 +10,10 @@ import UIKit
 
 final class ShakeyBellView: UIView {
     
-    let imageView = UIImageView()
-    let buttonView = UIButton()
-    
-    let buttonHeight: CGFloat = 16
+    private lazy var imageView = UIImageView()
+    private lazy var buttonView = UIButton()
+
+    private let buttonHeight: CGFloat = 16
     
     override init(frame: CGRect) {
         super.init(frame: frame)
