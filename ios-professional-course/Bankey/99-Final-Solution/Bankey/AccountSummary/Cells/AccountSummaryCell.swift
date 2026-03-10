@@ -82,8 +82,9 @@ extension AccountSummaryCell {
         balanceAmountLabel.text = "$XXX,XXX.XX"
         
         chevronImageView.translatesAutoresizingMaskIntoConstraints = false
-        let chevronImage = UIImage(systemName: "chevron.right")!.withTintColor(appColor, renderingMode: .alwaysOriginal)
-        chevronImageView.image = chevronImage
+        if let chevronImage = UIImage(systemName: "chevron.right") {
+            chevronImageView.image = chevronImage.withTintColor(appColor, renderingMode: .alwaysOriginal)
+        }
     }
     
     private func layout() {

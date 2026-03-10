@@ -30,9 +30,9 @@ struct CurrencyFormatter {
         let formatter = NumberFormatter()
         formatter.locale = Locale(identifier: "en_US")
         
-        let decimalSeparator = formatter.decimalSeparator! // "."
+        let decimalSeparator = formatter.decimalSeparator ?? "."
         let dollarComponents = dollarsWithDecimal.components(separatedBy: decimalSeparator) // "$929,466" "00"
-        var dollars = dollarComponents.first! // "$929,466"
+        var dollars = dollarComponents.first ?? ""
         dollars.removeFirst() // "929,466"
 
         return dollars

@@ -42,8 +42,8 @@ extension ShakeyBellView {
     func style() {
         translatesAutoresizingMaskIntoConstraints = false
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        let image = UIImage(systemName: "bell.fill")!.withTintColor(.white, renderingMode: .alwaysOriginal)
-        imageView.image = image
+        guard let bellImage = UIImage(systemName: "bell.fill") else { return }
+        imageView.image = bellImage.withTintColor(.white, renderingMode: .alwaysOriginal)
         
         buttonView.translatesAutoresizingMaskIntoConstraints = false
         buttonView.backgroundColor = .systemRed
@@ -87,7 +87,8 @@ extension ShakeyBellView {
         imageView.setAnchorPoint(CGPoint(x: 0.5, y: yOffset))
 
         UIView.animateKeyframes(withDuration: duration, delay: 0, options: [],
-          animations: {
+          animations: { [weak self] in
+            guard let self else { return }
             UIView.addKeyframe(withRelativeStartTime: 0.0,
                                relativeDuration: frameDuration) {
                 self.imageView.transform = CGAffineTransform(rotationAngle: -angle)

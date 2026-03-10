@@ -32,8 +32,8 @@ final class OnboardingContainerViewController: UIViewController {
         pages.append(page2)
         pages.append(page3)
         
-        currentVC = pages.first!
-        
+        currentVC = pages.first ?? UIViewController()
+
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
     
@@ -66,8 +66,9 @@ final class OnboardingContainerViewController: UIViewController {
             view.bottomAnchor.constraint(equalTo: pageViewController.view.bottomAnchor),
         ])
         
-        pageViewController.setViewControllers([pages.first!], direction: .forward, animated: false, completion: nil)
-        currentVC = pages.first!
+        guard let firstPage = pages.first else { return }
+        pageViewController.setViewControllers([firstPage], direction: .forward, animated: false, completion: nil)
+        currentVC = firstPage
     }
     
     private func style() {

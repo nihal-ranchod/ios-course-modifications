@@ -185,23 +185,26 @@ extension LoginViewController {
     private func animate() {
         let duration = 0.8
 
-        let animator1 = UIViewPropertyAnimator(duration: duration, curve: .easeInOut) {
-            self.titleLeadingAnchor?.constant = self.leadingEdgeOnScreen
-            self.subtitleLeadingAnchor?.constant = self.leadingEdgeOnScreen
-            self.view.layoutIfNeeded()
+        let animator1 = UIViewPropertyAnimator(duration: duration, curve: .easeInOut) { [weak self] in
+            guard let self else { return }
+            titleLeadingAnchor?.constant = leadingEdgeOnScreen
+            subtitleLeadingAnchor?.constant = leadingEdgeOnScreen
+            view.layoutIfNeeded()
         }
         animator1.startAnimation()
 
-        let animator2 = UIViewPropertyAnimator(duration: duration, curve: .easeInOut) {
-            self.subtitleLeadingAnchor?.constant = self.leadingEdgeOnScreen
-            self.view.layoutIfNeeded()
+        let animator2 = UIViewPropertyAnimator(duration: duration, curve: .easeInOut) { [weak self] in
+            guard let self else { return }
+            subtitleLeadingAnchor?.constant = leadingEdgeOnScreen
+            view.layoutIfNeeded()
         }
         animator2.startAnimation(afterDelay: 0.2)
 
-        let animator3 = UIViewPropertyAnimator(duration: duration*2, curve: .easeInOut) {
-            self.titleLabel.alpha = 1
-            self.subtitleLabel.alpha = 1
-            self.view.layoutIfNeeded()
+        let animator3 = UIViewPropertyAnimator(duration: duration*2, curve: .easeInOut) { [weak self] in
+            guard let self else { return }
+            titleLabel.alpha = 1
+            subtitleLabel.alpha = 1
+            view.layoutIfNeeded()
         }
         animator3.startAnimation(afterDelay: 0.2)
     }

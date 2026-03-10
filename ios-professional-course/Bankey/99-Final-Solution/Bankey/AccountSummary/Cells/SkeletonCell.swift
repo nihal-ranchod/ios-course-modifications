@@ -90,8 +90,9 @@ extension SkeletonCell {
         balanceAmountLabel.text = "-XXX,XXX.X-"
         
         chevronImageView.translatesAutoresizingMaskIntoConstraints = false
-        let chevronImage = UIImage(systemName: "chevron.right")!.withTintColor(appColor, renderingMode: .alwaysOriginal)
-        chevronImageView.image = chevronImage
+        if let chevronImage = UIImage(systemName: "chevron.right") {
+            chevronImageView.image = chevronImage.withTintColor(appColor, renderingMode: .alwaysOriginal)
+        }
     }
     
     private func setupLayers() {
