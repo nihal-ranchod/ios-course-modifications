@@ -9,7 +9,7 @@ import Foundation
 
 import UIKit
 
-class MoreViewController: UIViewController {
+final class MoreViewController: UIViewController {
     
     let stackView = UIStackView()
     let resetOnboardingButton = UIButton(type: .system)

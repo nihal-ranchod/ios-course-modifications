@@ -5,7 +5,7 @@
 
 import UIKit
 
-class AccountDetailViewController: UIViewController {
+final class AccountDetailViewController: UIViewController {
 
     let account: Account
     let transactions: [Transaction]

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MainViewController: UITabBarController {
+final class MainViewController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,22 +16,22 @@ class MainViewController: UITabBarController {
     }
 
     private func setupViews() {
-        let summaryVC = AccountSummaryViewController()
-        let moneyVC = MoveMoneyViewController()
-        let moreVC = MoreViewController()
+        let summaryViewController = AccountSummaryViewController()
+        let moveMoneyViewController = MoveMoneyViewController()
+        let moreViewController = MoreViewController()
 
-        summaryVC.setTabBarImage(imageName: "list.dash.header.rectangle", title: "Summary")
-        moneyVC.setTabBarImage(imageName: "arrow.left.arrow.right", title: "Move Money")
-        moreVC.setTabBarImage(imageName: "ellipsis.circle", title: "More")
+        summaryViewController.setTabBarImage(imageName: "list.dash.header.rectangle", title: "Summary")
+        moveMoneyViewController.setTabBarImage(imageName: "arrow.left.arrow.right", title: "Move Money")
+        moreViewController.setTabBarImage(imageName: "ellipsis.circle", title: "More")
 
-        let summaryNC = UINavigationController(rootViewController: summaryVC)
-        let moneyNC = UINavigationController(rootViewController: moneyVC)
-        let moreNC = UINavigationController(rootViewController: moreVC)
+        let summaryNavigationController = UINavigationController(rootViewController: summaryViewController)
+        let moveMoneyNavigationController = UINavigationController(rootViewController: moveMoneyViewController)
+        let moreNavigationController = UINavigationController(rootViewController: moreViewController)
 
-        summaryNC.navigationBar.barTintColor = appColor
-        hideNavigationBarLine(summaryNC.navigationBar)
-        
-        let tabBarList = [summaryNC, moneyNC, moreNC]
+        summaryNavigationController.navigationBar.barTintColor = appColor
+        hideNavigationBarLine(summaryNavigationController.navigationBar)
+
+        let tabBarList = [summaryNavigationController, moveMoneyNavigationController, moreNavigationController]
 
         viewControllers = tabBarList
     }
@@ -49,7 +49,7 @@ class MainViewController: UITabBarController {
     }
 }
 
-class MoveMoneyViewController: UIViewController {
+final class MoveMoneyViewController: UIViewController {
     override func viewDidLoad() {
         view.backgroundColor = .systemOrange
     }

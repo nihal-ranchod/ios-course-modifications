@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GradientView: UIView {
+final class GradientView: UIView {
     
     @IBInspectable
     var startColor: UIColor = .white

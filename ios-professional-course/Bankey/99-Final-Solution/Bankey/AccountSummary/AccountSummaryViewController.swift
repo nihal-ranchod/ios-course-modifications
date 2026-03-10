@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AccountSummaryViewController: UIViewController {
+final class AccountSummaryViewController: UIViewController {
     
     // Request Models
     var profile: Profile?
@@ -21,10 +21,7 @@ class AccountSummaryViewController: UIViewController {
     var tableView = UITableView()
     var headerView = AccountSummaryHeaderView(frame: .zero)
     let refreshControl = UIRefreshControl()
-    
-    // Networking (commented out — Zscaler blocks the Heroku API)
-    // var profileManager: ProfileManageable = ProfileManager()
-    
+
     // Error alert
     lazy var errorAlert: UIAlertController = {
         let alert =  UIAlertController(title: "", message: "", preferredStyle: .alert)
@@ -132,8 +129,8 @@ extension AccountSummaryViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         guard isLoaded else { return }
         let account = accounts[indexPath.row]
-        let detailVC = AccountDetailViewController(account: account)
-        navigationController?.pushViewController(detailVC, animated: true)
+        let detailViewController = AccountDetailViewController(account: account)
+        navigationController?.pushViewController(detailViewController, animated: true)
     }
 }
 
@@ -175,10 +172,10 @@ extension AccountSummaryViewController {
     }
 
     private func configureTableHeaderView(with profile: Profile) {
-        let dm = AccountSummaryHeaderView.DataModel(welcomeMessage: "Good morning,",
-                                                    name: profile.firstName,
-                                                    date: Date())
-        headerView.configure(dataModel: dm)
+        let dataModel = AccountSummaryHeaderView.DataModel(welcomeMessage: "Good morning,",
+                                                         name: profile.firstName,
+                                                         date: Date())
+        headerView.configure(dataModel: dataModel)
     }
 
     private func configureTableCells(with accounts: [Account]) {
@@ -218,39 +215,6 @@ extension AccountSummaryViewController {
     }
 }
 
-// MARK: - Old Networking (commented out — Zscaler blocks the Heroku API)
-//extension AccountSummaryViewController {
-//    private func fetchData() {
-//        let group = DispatchGroup()
-//        let userId = String(Int.random(in: 1..<4))
-//        fetchProfile(group: group, userId: userId)
-//        fetchAccounts(group: group, userId: userId)
-//        group.notify(queue: .main) { self.reloadView() }
-//    }
-//
-//    private func fetchProfile(group: DispatchGroup, userId: String) {
-//        group.enter()
-//        profileManager.fetchProfile(forUserId: userId) { result in
-//            switch result {
-//            case .success(let profile): self.profile = profile
-//            case .failure(let error): self.displayError(error)
-//            }
-//            group.leave()
-//        }
-//    }
-//
-//    private func fetchAccounts(group: DispatchGroup, userId: String) {
-//        group.enter()
-//        fetchAccounts(forUserId: userId) { result in
-//            switch result {
-//            case .success(let accounts): self.accounts = accounts
-//            case .failure(let error): self.displayError(error)
-//            }
-//            group.leave()
-//        }
-//    }
-//}
-
 // MARK: Actions
 extension AccountSummaryViewController {
     @objc func logoutTapped(sender: UIButton) {
@@ -276,9 +240,4 @@ extension AccountSummaryViewController {
     func titleAndMessageForTesting(for error: NetworkError) -> (String, String) {
             return titleAndMessage(for: error)
     }
-
-    // Commented out — depends on networking
-    // func forceFetchProfile() {
-    //     fetchProfile(group: DispatchGroup(), userId: "1")
-    // }
 }

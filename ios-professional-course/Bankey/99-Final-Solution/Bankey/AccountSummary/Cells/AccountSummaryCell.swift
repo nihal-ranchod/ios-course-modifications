@@ -13,7 +13,7 @@ enum AccountType: String, Codable {
     case Investment
 }
 
-class AccountSummaryCell: UITableViewCell {
+final class AccountSummaryCell: UITableViewCell {
     
     struct DataModel {
         let accountType: AccountType
@@ -116,13 +116,13 @@ extension AccountSummaryCell {
 }
 
 extension AccountSummaryCell {
-    func configure(with dm: DataModel) {
+    func configure(with dataModel: DataModel) {
 
-        typeLabel.text = dm.accountType.rawValue
-        nameLabel.text = dm.accountName
-        balanceAmountLabel.attributedText = dm.balanceAsAttributedString
+        typeLabel.text = dataModel.accountType.rawValue
+        nameLabel.text = dataModel.accountName
+        balanceAmountLabel.attributedText = dataModel.balanceAsAttributedString
 
-        switch dm.accountType {
+        switch dataModel.accountType {
         case .Banking:
             underlineView.backgroundColor = appColor
             balanceLabel.text = "Current balance"

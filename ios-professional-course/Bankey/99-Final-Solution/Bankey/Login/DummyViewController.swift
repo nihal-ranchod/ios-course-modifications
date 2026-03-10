@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class DummyViewController: UIViewController {
+final class DummyViewController: UIViewController {
     
     let stackView = UIStackView()
     let label = UILabel()

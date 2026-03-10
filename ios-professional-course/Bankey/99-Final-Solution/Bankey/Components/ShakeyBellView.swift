@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class ShakeyBellView: UIView {
+final class ShakeyBellView: UIView {
     
     let imageView = UIImageView()
     let buttonView = UIButton()

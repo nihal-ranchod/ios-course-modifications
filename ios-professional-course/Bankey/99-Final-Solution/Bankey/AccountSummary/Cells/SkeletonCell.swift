@@ -9,7 +9,7 @@ import UIKit
 
 extension SkeletonCell: SkeletonLoadable {}
 
-class SkeletonCell: UITableViewCell {
+final class SkeletonCell: UITableViewCell {
     
     let typeLabel = UILabel()
     let underlineView = UIView()

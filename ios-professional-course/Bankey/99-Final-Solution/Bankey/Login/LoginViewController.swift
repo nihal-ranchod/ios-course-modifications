@@ -15,7 +15,7 @@ protocol LoginViewControllerDelegate: AnyObject {
     func didLogin()
 }
 
-class LoginViewController: UIViewController {
+final class LoginViewController: UIViewController {
 
     let titleLabel = UILabel()
     let subtitleLabel = UILabel()
@@ -154,12 +154,6 @@ extension LoginViewController {
             return
         }
 
-        // Check for blanks
-//        if username.isEmpty || password.isEmpty {
-//            configureView(withMessage: "Username / password cannot be blank")
-//            return
-//        }
-        
         if username == "" && password == "" {
             signInButton.configuration?.showsActivityIndicator = true
             delegate?.didLogin()

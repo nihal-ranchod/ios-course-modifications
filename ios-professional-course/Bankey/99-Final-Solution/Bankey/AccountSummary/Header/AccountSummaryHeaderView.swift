@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AccountSummaryHeaderView: UIView {
+final class AccountSummaryHeaderView: UIView {
     
     @IBOutlet var contentView: UIView!
     
