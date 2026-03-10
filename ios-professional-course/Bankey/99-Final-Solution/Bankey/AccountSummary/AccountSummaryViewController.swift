@@ -22,8 +22,8 @@ class AccountSummaryViewController: UIViewController {
     var headerView = AccountSummaryHeaderView(frame: .zero)
     let refreshControl = UIRefreshControl()
     
-    // Networking
-    var profileManager: ProfileManageable = ProfileManager()
+    // Networking (commented out — Zscaler blocks the Heroku API)
+    // var profileManager: ProfileManageable = ProfileManager()
     
     // Error alert
     lazy var errorAlert: UIAlertController = {
@@ -54,7 +54,7 @@ extension AccountSummaryViewController {
         setupTableHeaderView()
         setupRefreshControl()
         setupSkeletons()
-        fetchData()
+        fetchLocalData()
     }
     
     func setupNavigationBar() {
@@ -129,70 +129,58 @@ extension AccountSummaryViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension AccountSummaryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        tableView.deselectRow(at: indexPath, animated: true)
+        guard isLoaded else { return }
+        let account = accounts[indexPath.row]
+        let detailVC = AccountDetailViewController(account: account)
+        navigationController?.pushViewController(detailVC, animated: true)
     }
 }
 
-// MARK: - Networking
+// MARK: - Local Data Loading
 extension AccountSummaryViewController {
-    private func fetchData() {
-        let group = DispatchGroup()
-        
-        // Testing - random number selection
-        let userId = String(Int.random(in: 1..<4))
-        
-        fetchProfile(group: group, userId: userId)
-        fetchAccounts(group: group, userId: userId)
-        
-        group.notify(queue: .main) {
-            self.reloadView()
+    private func fetchLocalData() {
+        // Load profile from local JSON
+        guard let profileURL = Bundle.main.url(forResource: "profile", withExtension: "json"),
+              let profileData = try? Data(contentsOf: profileURL) else {
+            return
         }
-    }
-    
-    private func fetchProfile(group: DispatchGroup, userId: String) {
-        group.enter()
-        profileManager.fetchProfile(forUserId: userId) { result in
-            switch result {
-            case .success(let profile):
-                self.profile = profile
-            case .failure(let error):
-                self.displayError(error)
-            }
-            group.leave()
+
+        // Load accounts from local JSON
+        guard let accountsURL = Bundle.main.url(forResource: "accounts", withExtension: "json"),
+              let accountsData = try? Data(contentsOf: accountsURL) else {
+            return
         }
-    }
-    
-    private func fetchAccounts(group: DispatchGroup, userId: String) {
-        group.enter()
-        fetchAccounts(forUserId: userId) { result in
-            switch result {
-            case .success(let accounts):
-                self.accounts = accounts
-            case .failure(let error):
-                self.displayError(error)
-            }
-            group.leave()
-        }
-    }
-    
-    private func reloadView() {
+
+        // Decode profile
+        let profile = try? JSONDecoder().decode(Profile.self, from: profileData)
+
+        // Decode accounts (needs iso8601 date strategy for createdDateTime)
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        let accounts = try? decoder.decode([Account].self, from: accountsData)
+
+        // Update the UI
+        self.profile = profile
+        self.accounts = accounts ?? []
+
         self.tableView.refreshControl?.endRefreshing()
-        
+
         guard let profile = self.profile else { return }
-        
+
         self.isLoaded = true
         self.configureTableHeaderView(with: profile)
         self.configureTableCells(with: self.accounts)
         self.tableView.reloadData()
     }
-    
+
     private func configureTableHeaderView(with profile: Profile) {
-        let vm = AccountSummaryHeaderView.DataModel(welcomeMessage: "Good morning,",
+        let dm = AccountSummaryHeaderView.DataModel(welcomeMessage: "Good morning,",
                                                     name: profile.firstName,
                                                     date: Date())
-        headerView.configure(dataModel: vm)
+        headerView.configure(dataModel: dm)
     }
-    
+
     private func configureTableCells(with accounts: [Account]) {
         accountCellDataModels = accounts.map {
             AccountSummaryCell.DataModel(accountType: $0.type,
@@ -200,7 +188,7 @@ extension AccountSummaryViewController {
                                          balance: $0.amount)
         }
     }
-    
+
     private func displayError(_ error: NetworkError) {
         let titleAndMessage = titleAndMessage(for: error)
         self.showErrorAlert(title: titleAndMessage.0, message: titleAndMessage.1)
@@ -219,17 +207,49 @@ extension AccountSummaryViewController {
         }
         return (title, message)
     }
-    
+
     private func showErrorAlert(title: String, message: String) {
         errorAlert.title = title
         errorAlert.message = message
 
-        // Don't present one error if another has already been presented
         if !errorAlert.isBeingPresented {
             present(errorAlert, animated: true, completion: nil)
         }
     }
 }
+
+// MARK: - Old Networking (commented out — Zscaler blocks the Heroku API)
+//extension AccountSummaryViewController {
+//    private func fetchData() {
+//        let group = DispatchGroup()
+//        let userId = String(Int.random(in: 1..<4))
+//        fetchProfile(group: group, userId: userId)
+//        fetchAccounts(group: group, userId: userId)
+//        group.notify(queue: .main) { self.reloadView() }
+//    }
+//
+//    private func fetchProfile(group: DispatchGroup, userId: String) {
+//        group.enter()
+//        profileManager.fetchProfile(forUserId: userId) { result in
+//            switch result {
+//            case .success(let profile): self.profile = profile
+//            case .failure(let error): self.displayError(error)
+//            }
+//            group.leave()
+//        }
+//    }
+//
+//    private func fetchAccounts(group: DispatchGroup, userId: String) {
+//        group.enter()
+//        fetchAccounts(forUserId: userId) { result in
+//            switch result {
+//            case .success(let accounts): self.accounts = accounts
+//            case .failure(let error): self.displayError(error)
+//            }
+//            group.leave()
+//        }
+//    }
+//}
 
 // MARK: Actions
 extension AccountSummaryViewController {
@@ -241,7 +261,7 @@ extension AccountSummaryViewController {
         reset()
         setupSkeletons()
         tableView.reloadData()
-        fetchData()
+        fetchLocalData()
     }
     
     private func reset() {
@@ -256,8 +276,9 @@ extension AccountSummaryViewController {
     func titleAndMessageForTesting(for error: NetworkError) -> (String, String) {
             return titleAndMessage(for: error)
     }
-    
-    func forceFetchProfile() {
-        fetchProfile(group: DispatchGroup(), userId: "1")
-    }
+
+    // Commented out — depends on networking
+    // func forceFetchProfile() {
+    //     fetchProfile(group: DispatchGroup(), userId: "1")
+    // }
 }
